@@ -4,6 +4,7 @@
 from radar import app
 from flaskext.sqlalchemy import SQLAlchemy
 import datetime
+import math
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root@localhost/radar'
 db = SQLAlchemy(app)
@@ -94,7 +95,7 @@ class Ad(db.Model):
                 "contact_email": self.contact_email,
                 "description": self.description,
                 "title": self.title,
-                "price": str(self.price),
+                "price": str(math.ceil(self.price)),
                 "image": self.image,
                 "category": self.category.serialize ,
                 }
