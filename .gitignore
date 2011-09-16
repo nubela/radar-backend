@@ -1,0 +1,4 @@
+.*project
+v_env/
+*.pyc
+*/uploads/*
