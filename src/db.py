@@ -80,11 +80,11 @@ class Ad(db.Model):
         return {
                 "id": self.id,
                 "location": self.location.serialize,
-                "created_timestamp": self.created_timestamp,
+                "created_timestamp": self.created_timestamp.isoformat() ,
                 "contact_email": self.contact_email,
                 "description": self.description,
                 "title": self.title,
-                "price": self.price,
+                "price": str(self.price),
                 "image": self.image,
                 "category": self.category.serialize,
                 }
@@ -114,4 +114,5 @@ class Ad(db.Model):
         
         db.session.add(ad)
         db.session.commit()
+        return ad.id
         

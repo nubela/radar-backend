@@ -15,6 +15,7 @@ def init_db():
 
 #dir config
 app.config['upload_dir'] = os.path.join(os.getcwd(), "static/uploads")
+app.config['samples_dir'] = os.path.join(os.getcwd(), "static/uploads")
 
 def init_app():
     """
@@ -23,6 +24,15 @@ def init_app():
     upload_dir = app.config["upload_dir"]
     if not os.path.exists(upload_dir):
         os.mkdir(upload_dir)
+
+@app.route('/ad/get', methods=['POST'])
+def get_ad():
+    """
+    Retrieves all the information about an ad.
+    """
+    from db import Ad
+    ad = Ad.query.get(request.form.get("id"))
+    return jsonify({"res": ad.serialize })
 
 @app.route('/ad/list', methods=['POST'])
 def list():
@@ -53,14 +63,14 @@ def create():
     category = Category(
                         name = request.form.get("category")
                         )
-    Ad.create(location, 
-              request.form.get("email"),
-              request.form.get("title"), 
-              request.form.get("price"), 
-              save_file(request.form.get("image")), 
-              request.form.get("category"),
-              request.form.get("description",""))
-    return jsonify({"res":True})
+    id = Ad.create(location, 
+                      request.form.get("email"),
+                      request.form.get("title"), 
+                      request.form.get("price"), 
+                      save_file(request.form.get("image")), 
+                      category,
+                      request.form.get("description",""))
+    return jsonify({"res":id})
 
 @app.route('/ad/delete', methods=['POST'])
 def delete():

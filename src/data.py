@@ -65,7 +65,7 @@ def populate_categories():
         category = Category(name=c)
         db.session.add(category)
     db.session.commit()
-    print "Done.\n"
+    print "Done."
 
 def mock_ads():
     print "Generating ads..."
@@ -79,7 +79,7 @@ def mock_ads():
                             )
         Ad.create(location, "mock@mock.com", "Random Mock App" + random_string(), str(randint(0,1000)), "sample_upload_pic.jpg", rand_cat," ".join([random_string() for i in range(10)]))
     db.session.commit()
-    print "Done.\n"
+    print "Done."
     
 if __name__ == '__main__':
     populate_categories()

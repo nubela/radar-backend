@@ -1,4 +1,4 @@
 .*project
 v_env/
 *.pyc
-*/uploads/*
+static/uploads/*

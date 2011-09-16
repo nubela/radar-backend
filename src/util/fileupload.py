@@ -21,8 +21,8 @@ def save_file(post_file, extension=None, subdir=None, dir_to_save=None):
     if extension == None:
         extension = ".jpg"
     if dir_to_save == None:
-        from backend import backend
-        dir_to_save = backend.config["upload_dir"]
+        from radar import app
+        dir_to_save = app.config["upload_dir"]
     if subdir == None: 
         subdir = ""
         
@@ -46,8 +46,8 @@ def open_file(file_name):
     """
     opens file in samples, and return base64 encoded streams.
     """
-    from backend import backend
-    sample_dir = backend.config["samples_dir"]
+    from radar import app
+    sample_dir = app.config["samples_dir"]
     file = open(os.path.join(sample_dir, file_name), 'r')
     stream = file.read()
     encoded_stream = base64.b64encode(stream)
