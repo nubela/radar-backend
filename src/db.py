@@ -21,7 +21,7 @@ class Location(db.Model):
             
     def delete(self):
         db.session.delete(self)
-        db.commit()
+        db.session.commit()
             
     @property
     def serialize(self):
@@ -73,7 +73,7 @@ class Ad(db.Model):
             
     def delete(self):
         db.session.delete(self)
-        db.commit()
+        db.session.commit()
             
     @property
     def serialize(self):

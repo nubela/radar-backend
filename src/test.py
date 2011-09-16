@@ -31,7 +31,7 @@ class RadarTests(unittest.TestCase):
         
     def test_ad_creation(self):
         """
-        Tests the API to create ads.
+        Tests the API to create ads. Conveniently, also tests get ad api call.
         """
         data = {
                 "long": randint(-360000000,360000000),
@@ -51,7 +51,7 @@ class RadarTests(unittest.TestCase):
         
         #retrieve it
         res = self.app.post("/ad/get", data={"id": ad_id})
-        assert "res" in res.data
+        assert "id" in res.data
     
     def test_first_ad_list(self):
         """
@@ -70,8 +70,33 @@ class RadarTests(unittest.TestCase):
     
     def test_delete_ad(self):
         """
+        Tests the API call to create an ad, then to delete it.        
         """
-        pass 
+        data = {
+                "long": randint(-360000000,360000000),
+                "lat": randint(-360000000,360000000),
+                "category": 5,
+                "email": "test@test.com",
+                "title": "Test Item " + random_string(),
+                "price": str(randint(0,1000)),
+                "image": open_file("sample_upload_pic.jpg"),
+                "description": " ".join([random_string() for i in range(10)]),
+                }
+        
+        #create it
+        create_response  = self.app.post("/ad/create", data=data)
+        response_dict = json.loads(create_response.data)
+        ad_id = response_dict["res"]
+        
+        res = self.app.post("/ad/get", data={"id": ad_id})
+        assert "id" in res.data
+        
+        self.app.post("/ad/delete", data={"id": ad_id})
+        
+        res = self.app.post("/ad/get", data={"id": ad_id})
+        assert not "id" in res.data
+        
+        
     
 if __name__ == '__main__':
     unittest.main()

@@ -32,8 +32,10 @@ def get_ad():
     """
     from db import Ad
     ad = Ad.query.get(request.form.get("id"))
-    return jsonify({"res": ad.serialize })
-
+    if ad:
+        return jsonify({"res": ad.serialize })
+    else: 
+        return jsonify({"res": False })
 @app.route('/ad/list', methods=['POST'])
 def list():
     """
@@ -81,6 +83,7 @@ def delete():
     ad = Ad.get(request.form.get("id"))
     ad.location.delete()
     ad.delete()
+    return jsonify({"res": True })
 
 if __name__ == '__main__':
     init_app()
