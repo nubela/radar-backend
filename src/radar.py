@@ -36,17 +36,28 @@ def get_ad():
         return jsonify({"res": ad.serialize })
     else: 
         return jsonify({"res": False })
+    
 @app.route('/ad/list', methods=['POST'])
 def list():
     """
     Lists ads
+    
+    Requires the following param:
+        * long, lat
+        * total
     """
     location = GPSPosition(request.form.get("long"), request.form.get("lat"))
-    total = request.form.get("total")
+    total = int(request.form.get("total"))
     ads = get_ads(location.longitude, location.latitude, total)
     
-    ads = [x.add.all()[0] for x in ads]
-    return jsonify(ads=[i.serialize for i in ads])
+    ads = [x.ad.all()[0] for x in ads]
+    if len(ads) > 0:
+        return jsonify({
+                        "ads":[i.serialize for i in ads],
+                        "res": True
+                        })
+    else:
+        return jsonify({"res": False})
 
 @app.route('/ad/create', methods=['POST'])
 def create():

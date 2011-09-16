@@ -33,4 +33,9 @@ def fib():
         k = j
         j = i+j
         i = k
-    
+
+def exp():
+    i = 0
+    while True:
+        i += 1
+        yield float("1e"+str(i))

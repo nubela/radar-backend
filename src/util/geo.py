@@ -1,6 +1,5 @@
 from kdtree import KDTree
 from sqlalchemy.sql.expression import and_
-from util import fib
 
 class GPSPosition:
     """
@@ -16,20 +15,21 @@ def get_ads(longitude, latitude, total):
     talks to the db, returns a list of _total_ ads that are near, sorted by proximity. 
     """
     from db import Location
+    from util import exp
     
     locations = []
-    fib_gen = fib()
-    fib_no = fib_gen.next()
+    exp_gen = exp()
+    exp_no = exp_gen.next()
     
-    while len(locations) < total:
+    while len(locations) < int(total):
         location_conditions = and_(
-                                   Location.latitude <= latitude + fib_no,
-                                   Location.latitude >= latitude - fib_no,
-                                   Location.longitude <= longitude + fib_no,
-                                   Location.longitude >= longitude - fib_no,
+                                   Location.latitude <= latitude + exp_no,
+                                   Location.latitude >= latitude - exp_no,
+                                   Location.longitude <= longitude + exp_no,
+                                   Location.longitude >= longitude - exp_no,
                                    )
         locations = Location.query.filter(location_conditions).all()
-        fib_no = fib_gen.next()
+        exp_no = exp_gen.next()
         
     return location_sort((longitude, latitude), locations, total)
 

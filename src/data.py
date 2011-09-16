@@ -15,7 +15,6 @@ def populate_categories():
     if len(all_cat) > 0:
         return
     
-    print "Populating Categories..."
     categories = (
                   #personals
                   "Strictly Platonic",
@@ -65,10 +64,8 @@ def populate_categories():
         category = Category(name=c)
         db.session.add(category)
     db.session.commit()
-    print "Done."
 
 def mock_ads():
-    print "Generating ads..."
     all_cat = Category.query.all() 
     for i in range(100):
         posn = GPSPosition(randint(-360000000,360000000), randint(-360000000,360000000))
@@ -79,7 +76,6 @@ def mock_ads():
                             )
         Ad.create(location, "mock@mock.com", "Random Mock App" + random_string(), str(randint(0,1000)), "sample_upload_pic.jpg", rand_cat," ".join([random_string() for i in range(10)]))
     db.session.commit()
-    print "Done."
     
 if __name__ == '__main__':
     populate_categories()

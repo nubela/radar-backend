@@ -55,8 +55,15 @@ class RadarTests(unittest.TestCase):
     
     def test_first_ad_list(self):
         """
+        Tests the normal listing of ads on first load of app
         """
-        pass
+        data = {
+                "long": randint(-360000000,360000000),
+                "lat": randint(-360000000,360000000),
+                "total": 25,
+                }
+        res = self.app.post("/ad/list", data=data)
+        assert not "False" in res.data
     
     def test_categorized_ad_list(self):
         """
