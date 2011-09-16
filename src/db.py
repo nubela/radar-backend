@@ -10,8 +10,8 @@ db = SQLAlchemy(app)
 
 class Location(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    longitude = db.Column(db.Integer)
-    latitude = db.Column(db.Integer)
+    longitude = db.Column(db.Float)
+    latitude = db.Column(db.Float)
     ad  = db.relationship('Ad', backref='ad',
                              lazy='dynamic')
     

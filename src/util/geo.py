@@ -7,8 +7,8 @@ class GPSPosition:
     """
     
     def __init__(self, longtitude, latitude):
-        self.longitude = int(longtitude)
-        self.latitude = int(latitude)
+        self.longitude = float(longtitude)
+        self.latitude = float(latitude)
 
 def get_ads_email_filtered(email, longitude, latitude, total):
     from db import Ad
@@ -38,8 +38,7 @@ def get_ads(longitude, latitude, total):
     exp_gen = exp()
     exp_no = exp_gen.next()
     
-    while len(locations) < int(total):
-        
+    while len(locations) < int(total) and exp_no < 360000000:
         #location filtered query
         location_conditions = and_(
                                    Location.latitude <= latitude + exp_no,
@@ -48,6 +47,7 @@ def get_ads(longitude, latitude, total):
                                    Location.longitude >= longitude - exp_no,
                                    )
         locations  = Location.query.filter(location_conditions).all()
+        exp_no = exp_gen.next() 
             
     return location_sort((longitude, latitude), locations, total)
 

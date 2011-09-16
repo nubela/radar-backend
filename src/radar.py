@@ -57,10 +57,10 @@ def list():
         (Additional param)
         * email
     """
+    print "Works"
     from db import Location, Ad
     
     req_type = request.form.get("type",None)
-    
     location = GPSPosition(request.form.get("long"), request.form.get("lat"))
     total = int(request.form.get("total"))
     ads = None
@@ -72,7 +72,9 @@ def list():
         #get category
         ads = get_ads_cat_filtered(int(request.form.get("category_id")), location.longitude, location.latitude, total)
     else:
+        print "Works2"
         ads = get_ads(location.longitude, location.latitude, total)
+        print "Works3"
     
     ads = [x.ad.all()[0] for x in ads]
     if len(ads) > 0:
