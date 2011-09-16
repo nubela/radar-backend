@@ -19,10 +19,11 @@ def populate_categories():
                   #personals
                   "Strictly Platonic",
                   "Woman seeking Woman",
-                  "Woman seeking Men",
+                  "Woman seeking Man",
                   "Man seeking Woman",
                   "Man seeking Man",
-                  "Man seeking Man",
+                  "Casual Encounters,",
+                  
                   #for sale
                   "Free",
                   "Bikes",
@@ -31,7 +32,6 @@ def populate_categories():
                   "Computer",
                   "General",
                   "Household",
-                  "Jewelry",
                   "Tickets",
                   "Tools",
                   "Wanted",
@@ -41,7 +41,6 @@ def populate_categories():
                   "Auto parts",
                   "Vehicles",
                   "Phones",
-                  "Jewelry",
                   "Clothes",
                   "Electronics",
                   "Music",

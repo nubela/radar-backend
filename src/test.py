@@ -78,7 +78,7 @@ class RadarTests(unittest.TestCase):
                 "lat": randint(-360000000,360000000),
                 "total": 25,
                 "type": "categorized",
-                "category_id": rand_cat.id,
+                "category": rand_cat.name,
                 }
         res = self.app.post("/ad/list", data=data)
         
@@ -105,7 +105,7 @@ class RadarTests(unittest.TestCase):
                 "description": " ".join([random_string() for i in range(10)]),
                 }
              
-        res = self.app.post("/ad/list", data=data)
+        res = self.app.post("/ad/create", data=data)
         
         #ensure there are at least some ads
         assert not "False" in res.data

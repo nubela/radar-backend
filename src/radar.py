@@ -51,7 +51,7 @@ def list():
         
     Type: Categorized (categorized)
         (Additional param)
-        * category_id
+        * category
     
     Type: My Ads (my_ad)
         (Additional param)
@@ -69,7 +69,7 @@ def list():
         ads = get_ads_email_filtered(email, location.longitude, location.latitude, total)
     elif req_type == "categorized":
         #get category
-        ads = get_ads_cat_filtered(int(request.form.get("category_id")), location.longitude, location.latitude, total)
+        ads = get_ads_cat_filtered(request.form.get("category"), location.longitude, location.latitude, total)
     else:
         ads = get_ads(location.longitude, location.latitude, total)
     
@@ -84,7 +84,6 @@ def list():
                         "res": True
                         })
     else:
-        print jsonify({"res": False}).data
         return jsonify({"res": False})
 
 @app.route('/ad/create', methods=['POST'])
@@ -94,7 +93,7 @@ def create():
     
     Requires the following param:
         * long, lat
-        * category, email, title, price, image, category, description
+        * category(id) , email, title, price, image, description
     """
     from db import Location, Category, Ad
     location = Location(
@@ -104,7 +103,7 @@ def create():
     category = Category.get(request.form.get("category"))
     id = Ad.create(location, 
                       request.form.get("email"),
-                      request.form.get("title"), 
+                      request.form.get("title"),
                       request.form.get("price"), 
                       save_file(request.form.get("image")), 
                       category,

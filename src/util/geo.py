@@ -19,8 +19,9 @@ def get_ads_email_filtered(email, longitude, latitude, total):
     
     return location_sort((longitude, latitude), locations, total)
 
-def get_ads_cat_filtered(cat_id, longitude, latitude, total):
-    from db import Ad
+def get_ads_cat_filtered(cat_name, longitude, latitude, total):
+    from db import Ad, Category
+    cat_id = Category.match(cat_name).id
     ads = Ad.query.filter(Ad.category_id == cat_id).all()
     locations = []
     for ad in ads:

@@ -59,8 +59,6 @@ class Category(db.Model):
     
     @staticmethod
     def match(name):
-        print name
-        print Category.query.filter(Category.name == name).all()
         return Category.query.filter(Category.name == name).all()[0]
 
 class Ad(db.Model):
@@ -95,7 +93,7 @@ class Ad(db.Model):
                 "contact_email": self.contact_email,
                 "description": self.description,
                 "title": self.title,
-                "price": str(math.ceil(self.price)),
+                "price": str(int(self.price)),
                 "image": self.image,
                 "category": self.category.serialize ,
                 }
