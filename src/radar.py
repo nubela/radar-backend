@@ -5,7 +5,9 @@ from flask import Flask, request
 import os
 from util.fileupload import save_file
 from flask.helpers import jsonify
-from util.geo import get_ads, GPSPosition
+from util.geo import get_ads, GPSPosition, get_ads_cat_filtered,\
+    get_ads_email_filtered
+from sqlalchemy.sql.expression import and_
 
 app = Flask(__name__)
 
@@ -42,13 +44,35 @@ def list():
     """
     Lists ads
     
-    Requires the following param:
+    Type: Normal / First List (not stated)
+    - Requires the following param:
         * long, lat
         * total
+        
+    Type: Categorized (categorized)
+        (Additional param)
+        * category_id
+    
+    Type: My Ads (my_ad)
+        (Additional param)
+        * email
     """
+    from db import Location, Ad
+    
+    req_type = request.form.get("type",None)
+    
     location = GPSPosition(request.form.get("long"), request.form.get("lat"))
     total = int(request.form.get("total"))
-    ads = get_ads(location.longitude, location.latitude, total)
+    ads = None
+    
+    if req_type == "my_ad":
+        email  = request.form.get("email")
+        ads = get_ads_email_filtered(email, location.longitude, location.latitude, total)
+    elif req_type == "categorized":
+        #get category
+        ads = get_ads_cat_filtered(int(request.form.get("category_id")), location.longitude, location.latitude, total)
+    else:
+        ads = get_ads(location.longitude, location.latitude, total)
     
     ads = [x.ad.all()[0] for x in ads]
     if len(ads) > 0:
@@ -73,9 +97,7 @@ def create():
                         longitude = request.form.get("long"),
                         latitude  = request.form.get("lat"),
                         )
-    category = Category(
-                        name = request.form.get("category")
-                        )
+    category = Category.get(request.form.get("category"))
     id = Ad.create(location, 
                       request.form.get("email"),
                       request.form.get("title"), 

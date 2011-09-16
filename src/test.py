@@ -9,7 +9,7 @@ import os
 from util.util import random_string
 from util.fileupload import open_file
 from random import randint
-from db import Location
+from db import Location, Category
 import json
 
 class RadarTests(unittest.TestCase):
@@ -67,13 +67,68 @@ class RadarTests(unittest.TestCase):
     
     def test_categorized_ad_list(self):
         """
+        Tests the API call to list filtered just by categories    
         """
-        pass
+        #lets grab a random category
+        all_cats = Category.query.all()
+        rand_cat = all_cats[randint(0, len(all_cats) - 1)]
+        
+        data = {
+                "long": randint(-360000000,360000000),
+                "lat": randint(-360000000,360000000),
+                "total": 25,
+                "type": "categorized",
+                "category_id": rand_cat.id,
+                }
+        res = self.app.post("/ad/list", data=data)
+        
+        #ensure there are at least some ads
+        assert not "False" in res.data
+        
+        #now ensure that all the ads are of that category
+        response_dict = json.loads(res.data)
+        for ad in response_dict["ads"]:
+            assert ad["category"]["id"] == rand_cat.id
     
     def test_my_ads_list(self):
         """
         """
-        pass
+        random_email = random_string() 
+        data = {
+                "long": randint(-360000000,360000000),
+                "lat": randint(-360000000,360000000),
+                "category": 5,
+                "email": random_email,
+                "title": "Test Item " + random_string(),
+                "price": str(randint(0,1000)),
+                "image": open_file("sample_upload_pic.jpg"),
+                "description": " ".join([random_string() for i in range(10)]),
+                }
+             
+        res = self.app.post("/ad/list", data=data)
+        
+        #ensure there are at least some ads
+        assert not "False" in res.data
+        
+        #now ensure that all the ads are of that category
+        self.app.post("/ad/create", data=data)
+        
+        data = {
+                "long": randint(-360000000,360000000),
+                "lat": randint(-360000000,360000000),
+                "total": 25,
+                "type": "my_ad",
+                "email": random_email,
+                }
+
+        res = self.app.post("/ad/list", data=data)
+        
+        #ensure there are at least some ads
+        assert not "False" in res.data
+        
+        response_dict = json.loads(res.data)
+        for ad in response_dict["ads"]:
+            assert ad["contact_email"] == random_email
     
     def test_delete_ad(self):
         """

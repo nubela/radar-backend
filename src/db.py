@@ -51,6 +51,16 @@ class Category(db.Model):
                 "id": self.id,
                 "name": self.name,
                 }
+    
+    @staticmethod
+    def get(id):
+        return Category.query.get(id)
+    
+    @staticmethod
+    def match(name):
+        print name
+        print Category.query.filter(Category.name == name).all()
+        return Category.query.filter(Category.name == name).all()[0]
 
 class Ad(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -86,7 +96,7 @@ class Ad(db.Model):
                 "title": self.title,
                 "price": str(self.price),
                 "image": self.image,
-                "category": self.category.serialize,
+                "category": self.category.serialize ,
                 }
     
     @staticmethod
@@ -97,9 +107,6 @@ class Ad(db.Model):
     def create(location, email, title, price, image, category, desc=None,):
         
         db.session.add(location)
-        db.session.flush()
-        
-        db.session.add(category)
         db.session.flush()
         
         ad = Ad(location_id=location.id, 

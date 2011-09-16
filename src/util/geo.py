@@ -10,11 +10,28 @@ class GPSPosition:
         self.longitude = int(longtitude)
         self.latitude = int(latitude)
 
+def get_ads_email_filtered(email, longitude, latitude, total):
+    from db import Ad
+    ads = Ad.query.filter(Ad.contact_email == email).all()
+    locations = []
+    for ad in ads:
+        locations += [ad.location]
+    
+    return location_sort((longitude, latitude), locations, total)
+
+def get_ads_cat_filtered(cat_id, longitude, latitude, total):
+    from db import Ad
+    ads = Ad.query.filter(Ad.category_id == cat_id).all()
+    locations = []
+    for ad in ads:
+        locations += [ad.location]
+    return location_sort((longitude, latitude), locations, total)
+
 def get_ads(longitude, latitude, total):
     """
     talks to the db, returns a list of _total_ ads that are near, sorted by proximity. 
     """
-    from db import Location
+    from db import Location, Ad
     from util import exp
     
     locations = []
@@ -22,15 +39,16 @@ def get_ads(longitude, latitude, total):
     exp_no = exp_gen.next()
     
     while len(locations) < int(total):
+        
+        #location filtered query
         location_conditions = and_(
                                    Location.latitude <= latitude + exp_no,
                                    Location.latitude >= latitude - exp_no,
                                    Location.longitude <= longitude + exp_no,
                                    Location.longitude >= longitude - exp_no,
                                    )
-        locations = Location.query.filter(location_conditions).all()
-        exp_no = exp_gen.next()
-        
+        locations  = Location.query.filter(location_conditions).all()
+            
     return location_sort((longitude, latitude), locations, total)
 
 def location_sort(point, locations, total):
