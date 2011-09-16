@@ -1,0 +1,4 @@
+#!/bin/bash
+mysql -u root -e "drop database radar;"
+mysql -u root -e "create database radar;"
+python db_create.py

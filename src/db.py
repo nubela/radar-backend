@@ -1,22 +1,27 @@
 #===============================================================================
 # db schema/mapping for radar app
 #===============================================================================
-import radar
+from radar import app
 from flaskext.sqlalchemy import SQLAlchemy
+import datetime
 
-radar.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root@localhost/radar'
-db = SQLAlchemy(radar)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root@localhost/radar'
+db = SQLAlchemy(app)
 
 class Location(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     longitude = db.Column(db.Integer)
     latitude = db.Column(db.Integer)
-    pointy = db.relationship('Ad', backref='ad',
+    ad  = db.relationship('Ad', backref='ad',
                              lazy='dynamic')
     
     def __init__(self, **kwargs):
         for k,v in kwargs.iteritems():
             setattr(self, k, v)
+            
+    def delete(self):
+        db.session.delete(self)
+        db.commit()
             
     @property
     def serialize(self):
@@ -66,6 +71,10 @@ class Ad(db.Model):
         for k,v in kwargs.iteritems():
             setattr(self, k, v)
             
+    def delete(self):
+        db.session.delete(self)
+        db.commit()
+            
     @property
     def serialize(self):
         return {
@@ -79,6 +88,10 @@ class Ad(db.Model):
                 "image": self.image,
                 "category": self.category.serialize,
                 }
+    
+    @staticmethod
+    def get(id):
+        return Ad.query.get(id)
     
     @staticmethod
     def create(location, email, title, price, image, category, desc=None,):
@@ -96,7 +109,9 @@ class Ad(db.Model):
                 image=image,
                 description=desc,
                 category_id = category.id,
+                created_timestamp = datetime.datetime.now(),
                 )
         
         db.session.add(ad)
-        db.commit()
+        db.session.commit()
+        
