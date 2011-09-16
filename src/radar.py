@@ -40,6 +40,10 @@ def list():
 def create():
     """
     Creates an ad
+    
+    Requires the following param:
+        * long, lat
+        * category, email, title, price, image, category, description
     """
     from db import Location, Category, Ad
     location = Location(
@@ -55,7 +59,7 @@ def create():
               request.form.get("price"), 
               save_file(request.form.get("image")), 
               request.form.get("category"),
-              request.form.get("lat",""))
+              request.form.get("description",""))
     return jsonify({"res":True})
 
 @app.route('/ad/delete', methods=['POST'])
