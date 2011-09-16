@@ -57,7 +57,6 @@ def list():
         (Additional param)
         * email
     """
-    print "Works"
     from db import Location, Ad
     
     req_type = request.form.get("type",None)
@@ -72,17 +71,20 @@ def list():
         #get category
         ads = get_ads_cat_filtered(int(request.form.get("category_id")), location.longitude, location.latitude, total)
     else:
-        print "Works2"
         ads = get_ads(location.longitude, location.latitude, total)
-        print "Works3"
     
     ads = [x.ad.all()[0] for x in ads]
     if len(ads) > 0:
+        print jsonify({
+                        "ads":[i.serialize for i in ads],
+                        "res": True
+                        }).data
         return jsonify({
                         "ads":[i.serialize for i in ads],
                         "res": True
                         })
     else:
+        print jsonify({"res": False}).data
         return jsonify({"res": False})
 
 @app.route('/ad/create', methods=['POST'])
