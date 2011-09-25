@@ -5,7 +5,10 @@
 
 import string
 from random import choice, randint
-import json
+try:
+    import json
+except ImportError:
+    import simplejson as json
  
 # The characters to make up the random password
 chars = string.ascii_letters + string.digits

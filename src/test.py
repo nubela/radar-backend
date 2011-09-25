@@ -10,7 +10,10 @@ from util.util import random_string
 from util.fileupload import open_file
 from random import randint
 from db import Location, Category
-import json
+try:
+    import json
+except ImportError:
+    import simplejson as json 
 
 class RadarTests(unittest.TestCase):
     
