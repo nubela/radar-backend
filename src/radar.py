@@ -27,6 +27,8 @@ def init_app():
     if not os.path.exists(upload_dir):
         os.mkdir(upload_dir)
 
+#--- API below ---#
+
 @app.route('/ad/get', methods=['POST'])
 def get_ad():
     """
@@ -37,7 +39,10 @@ def get_ad():
     if ad:
         return jsonify({"res": ad.serialize })
     else: 
-        return jsonify({"res": False })
+        return jsonify({
+                        "res": False,
+                        "error": "We are unable to find any classifieds near you!",
+                        })
     
 @app.route('/ad/list', methods=['POST'])
 def list():
@@ -84,7 +89,10 @@ def list():
                         "res": True
                         })
     else:
-        return jsonify({"res": False})
+        return jsonify({
+                        "res": False,
+                        "error": "We are unable to find any classifieds near you,",
+                        })
 
 @app.route('/ad/create', methods=['POST'])
 def create():
@@ -95,6 +103,22 @@ def create():
         * long, lat
         * category(id) , email, title, price, image, description
     """
+    #validation
+    required_fields = (
+                       'long',
+                       'lat', 
+                       'email',
+                       'title',
+                       'price',
+                       'image', 
+                       )
+    for field in required_fields:
+        if not field in request.form:
+            return jsonify({
+                            "res":False,
+                            "error": "There is an error creating your ad due to missing field(s).",
+                            })
+    
     from db import Location, Category, Ad
     location = Location(
                         longitude = request.form.get("long"),
