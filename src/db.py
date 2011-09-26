@@ -121,4 +121,3 @@ class Ad(db.Model):
         db.session.add(ad)
         db.session.commit()
         return ad.id
-        

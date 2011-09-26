@@ -142,7 +142,6 @@ def create():
                         latitude  = request.form.get("lat"),
                         )
     category = Category.get(request.form.get("category"))
-    wsgi_print("nube")
     id = Ad.create(location, 
                       request.form.get("email"),
                       request.form.get("title"),
@@ -150,6 +149,7 @@ def create():
                       save_file(request.form.get("image")), 
                       category,
                       request.form.get("description",""))
+    wsgi_print("nube")
     return jsonify({"res":id})
 
 @app.route('/ad/delete', methods=['POST'])
