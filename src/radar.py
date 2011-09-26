@@ -124,6 +124,7 @@ def create():
         * long, lat
         * category(id) , email, title, price, image, description
     """
+    wsgi_print("hello world")
     #validation
     required_fields = (
                        'long',
