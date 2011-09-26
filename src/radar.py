@@ -10,6 +10,7 @@ from util.geo import get_ads, GPSPosition, get_ads_cat_filtered,\
 from sqlalchemy.sql.expression import and_
 from util.util import wsgi_print
 from local_config import UPLOAD_DIR, LOG_FILE
+from util.validator import StringValidator
 
 app = Flask(__name__)
 
@@ -153,6 +154,14 @@ def create():
         return jsonify({
                         "res":False,
                         "error": "Price needs to be a numerical value.",
+                        })
+        
+    #email format validation
+    validate_me = StringValidator(request.form.get("email"))
+    if not validate_me.isEmail():
+        return jsonify({
+                        "res":False,
+                        "error": "Not a valid email address.",
                         })
     
     from db import Location, Category, Ad
