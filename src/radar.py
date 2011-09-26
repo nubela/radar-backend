@@ -98,7 +98,7 @@ def list():
     else:
         ads = get_ads(location.longitude, location.latitude, total)
     
-    ads = [x.ad.all()[0] for x in ads]
+    ads = [x.ad.all()[0] for x in ads if x.ad.all()]
     if len(ads) > 0:
         print jsonify({
                         "ads":[i.serialize for i in ads],
