@@ -8,6 +8,7 @@
 import os
 import base64
 from util import random_string
+from util import wsgi_print
 
 def save_file(post_file, extension=None, subdir=None, dir_to_save=None):
     """
@@ -17,6 +18,8 @@ def save_file(post_file, extension=None, subdir=None, dir_to_save=None):
     - Ensures no file clashes.
     - Returns the filename.
     """
+    
+    wsgi_print("nube2")
     
     if extension == None:
         extension = ".jpg"
@@ -30,6 +33,8 @@ def save_file(post_file, extension=None, subdir=None, dir_to_save=None):
     
     file_data = base64.b64decode(post_file)
     
+    wsgi_print("nube3")
+    
     file_name = random_string() + extension
     absolute_write_path = os.path.join(working_dir, file_name) 
     while os.path.exists(absolute_write_path):
@@ -39,6 +44,8 @@ def save_file(post_file, extension=None, subdir=None, dir_to_save=None):
     file = open(absolute_write_path,'wb+')
     file.write(file_data)
     file.close()
+    
+    wsgi_print("nube")
     
     return file_name
 

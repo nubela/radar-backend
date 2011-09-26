@@ -108,8 +108,6 @@ class Ad(db.Model):
     @staticmethod
     def create(location, email, title, price, image, category, desc=None,):
         
-        wsgi_print("nube")
-        
         db.session.add(location)
         db.session.flush()
         
