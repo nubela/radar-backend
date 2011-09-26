@@ -9,7 +9,7 @@ class StringValidator:
     RE_EMAIL = None
 
     validateString = ""
-        _patterns = {}
+    _patterns = {}
 
     def __init__(self, validateString):
         self.validateString = validateString
