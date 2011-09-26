@@ -29,6 +29,13 @@ def init_app():
 
 #--- API below ---#
 
+@app.route('/category', methods=['POST'])
+def get_categories():
+    """
+    Retrieves the list of categories
+    """
+    pass
+
 @app.route('/ad/get', methods=['POST'])
 def get_ad():
     """
@@ -62,6 +69,19 @@ def list():
         (Additional param)
         * email
     """
+    #validation
+    required_fields = (
+                       "long",
+                       "lat", 
+                       "total",
+                       )
+    for f in required_fields:
+        if not f in request.form:
+            return jsonify({
+                            "res": False,
+                            "error": "There is a missing field in your request: "+f,
+                            })
+    
     from db import Location, Ad
     
     req_type = request.form.get("type",None)
@@ -91,7 +111,7 @@ def list():
     else:
         return jsonify({
                         "res": False,
-                        "error": "We are unable to find any classifieds near you,",
+                        "error": "We are unable to find any classifieds near you.",
                         })
 
 @app.route('/ad/create', methods=['POST'])
