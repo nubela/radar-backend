@@ -4,3 +4,4 @@ v_env/
 */uploads/*
 *.jpg
 */local_config.py
+error.log

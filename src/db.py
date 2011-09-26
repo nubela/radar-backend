@@ -63,6 +63,14 @@ class Category(db.Model):
     @staticmethod
     def match(name):
         return Category.query.filter(Category.name == name).all()[0]
+    
+    @staticmethod
+    def gen_options():
+        categories = Category.query.all()
+        opt_str = ""
+        for cat in categories:
+            opt_str += "> option value='"+str(cat.id)+"' | " + cat.name + "\n"
+        return opt_str 
 
 class Ad(db.Model):
     id = db.Column(db.Integer, primary_key=True)
