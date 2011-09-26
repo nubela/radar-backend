@@ -42,3 +42,7 @@ def exp():
     while True:
         i += 1
         yield float("1e"+str(i))
+        
+def wsgi_print(line):
+    import sys
+    print >> sys.stderr, line

@@ -8,6 +8,7 @@ from flask.helpers import jsonify
 from util.geo import get_ads, GPSPosition, get_ads_cat_filtered,\
     get_ads_email_filtered
 from sqlalchemy.sql.expression import and_
+from util.util import wsgi_print
 
 app = Flask(__name__)
 
@@ -69,6 +70,10 @@ def list():
         (Additional param)
         * email
     """
+    wsgi_print("long: " + request.form.get("long"))
+    wsgi_print("lat: " + request.form.get("lat"))
+    wsgi_print("total: " + request.form.get("total"))
+    
     #validation
     required_fields = (
                        "long",
