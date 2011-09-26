@@ -3,3 +3,4 @@ v_env/
 *.pyc
 */uploads/*
 *.jpg
+*/local_config.py

@@ -5,8 +5,10 @@ from radar import app
 from flaskext.sqlalchemy import SQLAlchemy
 import datetime
 import math
+from local_config import SQL_URI
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root@localhost/radar'
+app.config['SQLALCHEMY_DATABASE_URI'] = SQL_URI
+
 db = SQLAlchemy(app)
 
 class Location(db.Model):
