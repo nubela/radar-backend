@@ -145,6 +145,15 @@ def create():
                             "res":False,
                             "error": "There is an error creating your ad due to missing field(s).",
                             })
+            
+    #check for price integer
+    try:
+        float(request.form.get("price"))
+    except ValueError:
+        return jsonify({
+                        "res":False,
+                        "error": "Price needs to be a numerical value.",
+                        })
     
     from db import Location, Category, Ad
     location = Location(
