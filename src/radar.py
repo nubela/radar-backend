@@ -70,10 +70,6 @@ def list():
         (Additional param)
         * email
     """
-    wsgi_print("long: " + request.form.get("long"))
-    wsgi_print("lat: " + request.form.get("lat"))
-    wsgi_print("total: " + request.form.get("total"))
-    
     #validation
     required_fields = (
                        "long",
@@ -124,7 +120,6 @@ def create():
         * long, lat
         * category(id) , email, title, price, image, description
     """
-    wsgi_print("hello world")
     #validation
     required_fields = (
                        'long',
@@ -147,6 +142,7 @@ def create():
                         latitude  = request.form.get("lat"),
                         )
     category = Category.get(request.form.get("category"))
+    wsgi_print("nube")
     id = Ad.create(location, 
                       request.form.get("email"),
                       request.form.get("title"),
