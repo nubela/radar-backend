@@ -149,7 +149,6 @@ def create():
                       save_file(request.form.get("image")), 
                       category,
                       request.form.get("description",""))
-    wsgi_print("nube")
     return jsonify({"res":id})
 
 @app.route('/ad/delete', methods=['POST'])

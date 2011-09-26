@@ -6,6 +6,7 @@ from flaskext.sqlalchemy import SQLAlchemy
 import datetime
 import math
 from local_config import SQL_URI
+from util.util import wsgi_print
 
 app.config['SQLALCHEMY_DATABASE_URI'] = SQL_URI
 
@@ -106,6 +107,8 @@ class Ad(db.Model):
     
     @staticmethod
     def create(location, email, title, price, image, category, desc=None,):
+        
+        wsgi_print("nube")
         
         db.session.add(location)
         db.session.flush()
