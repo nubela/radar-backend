@@ -105,10 +105,6 @@ def list():
     
     ads = [x.ad.all()[0] for x in ads if x.ad.all()]
     if len(ads) > 0:
-        print jsonify({
-                        "ads":[i.serialize for i in ads],
-                        "res": True
-                        }).data
         return jsonify({
                         "ads":[i.serialize for i in ads],
                         "res": True
