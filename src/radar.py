@@ -9,7 +9,7 @@ from util.geo import get_ads, GPSPosition, get_ads_cat_filtered,\
     get_ads_email_filtered
 from sqlalchemy.sql.expression import and_
 from util.util import wsgi_print
-from local_config import UPLOAD_DIR
+from local_config import UPLOAD_DIR, LOG_FILE
 
 app = Flask(__name__)
 
@@ -21,17 +21,14 @@ def init_db():
 app.config['upload_dir'] = os.path.join(os.getcwd(), UPLOAD_DIR)
 app.config['samples_dir'] = os.path.join(os.getcwd(), "static/uploads")
 
-#--- email logs ---#
+#--- logs ---#
 
-ADMINS = ['nubela@gmail.com']
 if not app.debug:
     import logging
-    from logging.handlers import SMTPHandler
-    mail_handler = SMTPHandler('127.0.0.1',
-                               'server-error@ctrleff.com',
-                               ADMINS, 'YourApplication Failed')
-    mail_handler.setLevel(logging.ERROR)
-    app.logger.addHandler(mail_handler)
+    from logging import FileHandler 
+    file_handler = FileHandler(LOG_FILE)
+    file_handler.setLevel(logging.WARNING)
+    app.logger.addHandler(file_handler)
 
 def init_app():
     """
