@@ -9,6 +9,7 @@ from util.geo import get_ads, GPSPosition, get_ads_cat_filtered,\
     get_ads_email_filtered
 from sqlalchemy.sql.expression import and_
 from util.util import wsgi_print
+from local_config import UPLOAD_DIR
 
 app = Flask(__name__)
 
@@ -17,7 +18,7 @@ def init_db():
     db.create_all()
 
 #dir config
-app.config['upload_dir'] = os.path.join(os.getcwd(), "static/uploads")
+app.config['upload_dir'] = os.path.join(os.getcwd(), UPLOAD_DIR)
 app.config['samples_dir'] = os.path.join(os.getcwd(), "static/uploads")
 
 def init_app():
