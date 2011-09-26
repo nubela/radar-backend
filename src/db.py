@@ -5,10 +5,8 @@ from radar import app
 from flaskext.sqlalchemy import SQLAlchemy
 import datetime
 import math
-from local_config import SQL_URI
 
-app.config['SQLALCHEMY_DATABASE_URI'] = SQL_URI
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:040312@localhost/radar'
 db = SQLAlchemy(app)
 
 class Location(db.Model):
@@ -123,3 +121,4 @@ class Ad(db.Model):
         db.session.add(ad)
         db.session.commit()
         return ad.id
+        
