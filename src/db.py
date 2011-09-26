@@ -69,7 +69,7 @@ class Category(db.Model):
         categories = Category.query.all()
         opt_str = ""
         for cat in categories:
-            opt_str += "> option value='"+str(cat.id)+"' | " + cat.name + "\n"
+            opt_str += "option value='"+str(cat.id)+"' | " + cat.name + "\n"
         return opt_str 
 
 class Ad(db.Model):
