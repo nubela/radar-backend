@@ -1,0 +1,13 @@
+This is the backend of the Radar app, this is my first attempt with ReSTful APIs, so you might see some quirks. Some mistakes made in this attempt are that I used POST for everything, and used verbs instead of just nouns with GET/POST/PUT/DELETE. So note that!
+
+But other than that, you should see some nice use of unit testing (Which saved my ass during the hackathon!)
+
+Enjoy.
+
+Technologies employed:
+* Flask python microframework
+* Unit testing
+* Fabric
+* ReST
+
+Questions? Email me at nubela@gmail.com
